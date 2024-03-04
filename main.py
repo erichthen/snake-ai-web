@@ -5,10 +5,10 @@ import simpleaudio as sa
 pop = sa.WaveObject.from_wave_file("pop.wav")
 uhhhh = sa.WaveObject.from_wave_file("uhhhh.wav")
 
-WIDTH = 500
-HEIGHT = 500
 SPACE_SIZE = 20
 BODY_SIZE = 2
+WIDTH = 500
+HEIGHT = 500
 
 game_over_flag = False
 
@@ -31,7 +31,7 @@ color_map = {
 
 #functions for score and highscore handling
 def update_score_label():
-    label.config(text=f"Points: {score}  Highscore: {high_score} with speed: {high_speed}")
+    label.config(text=f"Points: {score}")
 
 def save_high_score():
   with open('highscore.txt', 'w') as file:
@@ -53,8 +53,26 @@ def load_high_score():
         with open('highscore.txt', 'w') as file:
             file.write(f"{high_score},{high_speed}")
 
+#to implement later: window options
+#constants user chooses: SPEED, COLORS: SNAKE, FOOD, BACKGROUND, WIDTH, HEIGHT
+# def get_window_size_input():
+#     size_map = {
+#         "small": 500,
+#         "medium": 750,
+#         "large": 1000
+#     }
 
-#constants user chooses: SPEED, COLORS: SNAKE, FOOD, BACKGROUND
+#     while True:
+#         size_input = input("Enter window size (small, medium, large):\n").lower()
+#         if size_input in size_map:
+#             return size_map[size_input]
+#         else:
+#             print("Please enter 'small', 'medium', or 'large'.")
+
+# window_size = get_window_size_input()
+# WIDTH = window_size
+# HEIGHT = window_size
+
 def get_speed_input():
    
     while True:
@@ -220,22 +238,33 @@ def check_collisions(snake):
   return False
 
 def game_over(): 
-  global game_over_flag, high_score, high_speed, score
-  game_over_flag = True
-  canvas.delete(ALL) 
-  #no invisible text if bg is red
-  game_over_text_color = "black" if BACKGROUND == "red" else "red"
-  #check for high score, assign speed if high score is changed
-  if score > high_score:
-     high_score = score
-     high_speed = speed
-     update_score_label()
-     save_high_score()
+    
+    global game_over_flag, high_score, high_speed, score
+    game_over_flag = True
+    canvas.delete(ALL)
 
-  canvas.create_text(canvas.winfo_width()/2, 
-          canvas.winfo_height()/2, 
-          font=('freesansbold', 40), 
-          text="GAME OVER\nPress r to restart", fill = game_over_text_color, tag="gameover") 
+    # Determine rectangle and text color
+    rect_color = "black" if BACKGROUND == "red" else "red"
+    text_color = "white"
+    rect_x1 = WIDTH // 8  # Start more to the left
+    rect_y1 = HEIGHT // 3  # Start lower than before
+    rect_x2 = 7 * WIDTH // 8  # End more to the right
+    rect_y2 = 2 * HEIGHT // 3  # End higher than before
+
+    # Create a rectangle in the middle of the screen with adjusted dimensions
+    canvas.create_rectangle(rect_x1, rect_y1, rect_x2, rect_y2, fill=rect_color, outline="black")
+    # Create game over text
+    canvas.create_text(WIDTH // 2, HEIGHT // 2 - 20, text="You died! Press 'r' to retry.", fill=text_color, font=('Helvetica', 20, 'bold'))
+
+    # Create high score text
+    highscore_text = f"Highscore: {high_score} with speed: {high_speed}"
+    canvas.create_text(WIDTH // 2, HEIGHT // 2 + 20, text=highscore_text, fill=text_color, font=('Helvetica', 16))
+
+    # Check for high score, assign speed if high score is changed
+    if score > high_score:
+        high_score = score
+        high_speed = speed
+        save_high_score()
   
 def restart_game(event):
   global game_over_flag, snake, food, score, direction
