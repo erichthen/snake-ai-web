@@ -12,13 +12,13 @@ game_over_flag = False
 def get_speed_input():
    
     while True:
-        user_input = input("Select speed (50-300), lower is faster, default (no input) is 125. \nSpeed: ")
+        user_input = input("Select speed (25-200), lower is faster, default (no input) is 100. \nSpeed: ")
         if user_input.strip() == "":
-            return 125  #default
+            return 100  #default
 
         try:
             speed = int(user_input)
-            if 50 <= speed <= 300:
+            if 25 <= speed <= 200:
                 return speed
             else:
                 print("Speed must be between 50 and 300.")
