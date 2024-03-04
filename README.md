@@ -1,6 +1,6 @@
 # Simple Snake Game  
 ## How to play  
-**1.clone repository** 
+**1.clone repository**   
 **2.check that you have tkinter with python -m tkinter**  
 **3.run with python3 main.py**    
 **4.Choose your game speed, snake color, food color, bg color (use name of color i.e. "red")**     
