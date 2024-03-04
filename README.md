@@ -9,7 +9,8 @@
 **4.Choose your game speed, snake color, food color, bg color (use name of color i.e. "black")**     
 **5.Arrow keys to move, don't run into the wall, run into the blocks that pop up, don't run into yourself**  
 
-Made to better familiarize myself with the python tkinter module
+Made to better familiarize myself with the python tkinter module  
+and working with git and github
 
 updates: game over is visible if background is red  
          highscore tracking, speed of when highscore was achieved  
