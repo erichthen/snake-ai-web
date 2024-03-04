@@ -3,7 +3,7 @@
 **1.clone repository**   
 **2.check that you have tkinter with python3 -m tkinter or python -m tkinter**  
 **3.run with python3 main.py or python main.py**    
-**4.Choose your game speed, snake color, food color, bg color (use name of color i.e. "red")**     
+**4.Choose your game speed, snake color, food color, bg color (use name of color i.e. "black")**     
 **5.Arrow keys to move, don't run into yourself or the wall, eat the food, have fun.**  
 
 Made to better familiarize myself with the python tkinter module
