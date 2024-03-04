@@ -1,0 +1,7 @@
+# Simple Snake Game  
+## How to play  
+**1.clone repository** 
+**2.check that you have tkinter with python -m tkinter**  
+**3.run with python3 main.py**    
+**4.Choose your settings**   
+**5.Arrow keys to move, don't run into yourself or the wall, eat the food**  
