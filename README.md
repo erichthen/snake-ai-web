@@ -10,7 +10,7 @@
 Made to better familiarize myself with the python tkinter module  
 and working with git and github
 
-updates: 
+updates:  
 game over is visible if background is red  
 highscore tracking, speed of when highscore was achieved  
 make highscore file automatically before playing, handle value errors  
