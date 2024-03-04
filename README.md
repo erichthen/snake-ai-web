@@ -15,6 +15,7 @@ game over is visible if background is red
 highscore tracking, speed of when highscore was achieved  
 make highscore file automatically before playing, handle value errors  
 sound implemented for eating and dying  
+snake square outline same as snake color, snake is no longer segmented, looks better  
  
 WIP:  
 different game modes  
