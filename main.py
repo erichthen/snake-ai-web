@@ -241,8 +241,13 @@ def game_over():
     
     global game_over_flag, high_score, high_speed, score
     game_over_flag = True
-    canvas.delete(ALL)
 
+    if score > high_score:
+      high_score = score
+      high_speed = speed
+      save_high_score()
+
+    canvas.delete(ALL)
     # Determine rectangle and text color
     rect_color = "black" if BACKGROUND == "red" else "red"
     text_color = "white"
@@ -260,11 +265,8 @@ def game_over():
     highscore_text = f"Highscore: {high_score} with speed: {high_speed}"
     canvas.create_text(WIDTH // 2, HEIGHT // 2 + 20, text=highscore_text, fill=text_color, font=('Helvetica', 16))
 
-    # Check for high score, assign speed if high score is changed
-    if score > high_score:
-        high_score = score
-        high_speed = speed
-        save_high_score()
+   
+
   
 def restart_game(event):
   global game_over_flag, snake, food, score, direction
