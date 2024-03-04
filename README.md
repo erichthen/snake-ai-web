@@ -13,13 +13,13 @@ and working with git and github
 
 updates: game over is visible if background is red  
          highscore tracking, speed of when highscore was achieved  
-         make and handle txt automatically
+         make highscore file automatically before playing, handle value errors  
          sound implemented for eating and dying  
  
 WIP:  
 different game modes  
 windowsize as input  
-option to redo chosen inputs before running , prompt confirmation before running
+option to redo chosen inputs before running , prompt confirmation before running  
 less ratchet game over  
 sound implemented for eating and dying
 
