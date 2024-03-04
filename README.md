@@ -1,7 +1,8 @@
 # Simple Snake Game  
 <ins>**How to play**</ins>  
 **1.clone repository**   
-**2.check that you have tkinter with python3 -m tkinter or python -m tkinter**  
+**2.check that you have tkinter with python3 -m tkinter or python -m tkinter**
+**2.5 Install pygame if not already installed**  
 **3.Clear highscore.txt**  
 **3.run with python3 main.py or python main.py**    
 **4.Choose your game speed, snake color, food color, bg color (use name of color i.e. "black")**     
