@@ -10,13 +10,13 @@ BODY_SIZE = 2
 def get_speed_input():
   while True:
         try:
-            speed = int(input("Select speed (100-400). Lower is faster: "))
-            if 100 <= speed <= 400:
+            speed = int(input("Select speed (50-400). Lower is faster: "))
+            if 50 <= speed <= 400:
                 return speed
             else:
                 print("Speed must be between 150 and 300.")
         except ValueError:
-            print("Please enter a valid integer.")
+            print("Please enter a valid integer")
 
 SPEED = get_speed_input()
 
