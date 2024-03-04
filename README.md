@@ -1,5 +1,5 @@
 # Simple Snake Game  
-## How to play  
+## How to play
 **1.clone repository**   
 **2.check that you have tkinter with python3 -m tkinter or python -m tkinter**  
 **3.run with python3 main.py or python main.py**    
