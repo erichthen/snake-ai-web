@@ -16,6 +16,7 @@ highscore tracking, speed of when highscore was achieved
 make highscore file automatically before playing, handle value errors  
 sound implemented for eating and dying  
 snake square outline same as snake color, snake is no longer segmented, looks better  
+better game over window
  
 WIP:  
 different game modes  
