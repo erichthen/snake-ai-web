@@ -7,4 +7,4 @@
 **5.Arrow keys to move, don't run into yourself or the wall, eat the food, have fun.**  
 
 
-TODO: make sure game over is visiblen if background is red
+TODO: make sure game over is visible if background is red
