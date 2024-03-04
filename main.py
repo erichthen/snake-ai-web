@@ -89,7 +89,6 @@ def get_speed_input():
 speed = get_speed_input()
 
 
-
 def get_unique_color_input(prompt):
     while True:
         color = input(prompt).lower()
@@ -125,7 +124,7 @@ class Snake:
       self.coordinates.append([0, 0]) 
 
     for x, y in self.coordinates: 
-      square = canvas.create_rectangle(x,y,x+SPACE_SIZE,y+SPACE_SIZE,fill=SNAKE,tag="snake") 
+      square = canvas.create_rectangle(x,y,x+SPACE_SIZE,y+SPACE_SIZE,fill=SNAKE,outline=SNAKE, tag="snake") 
       self.squares.append(square) 
 
 
@@ -162,7 +161,7 @@ def next_turn(snake, food):
 
   square = canvas.create_rectangle( 
     x, y, x + SPACE_SIZE, 
-        y + SPACE_SIZE, fill=SNAKE) 
+        y + SPACE_SIZE, fill=SNAKE, outline=SNAKE) 
 
   snake.squares.insert(0, square) 
 
