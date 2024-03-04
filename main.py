@@ -8,17 +8,24 @@ BODY_SIZE = 2
 
 #constants user chooses: SPEED, COLORS: SNAKE, FOOD, BACKGROUND
 def get_speed_input():
-  while True:
+   
+    while True:
+        user_input = input("Select speed (50-300), lower is faster, default is 125.\nEnter blank for default: ")
+        if user_input.strip() == "":
+            return 125  #default
+
         try:
-            speed = int(input("Select speed (50-400). Lower is faster: "))
-            if 50 <= speed <= 400:
+            speed = int(user_input)
+            if 50 <= speed <= 300:
                 return speed
             else:
-                print("Speed must be between 150 and 300.")
+                print("Speed must be between 50 and 300.")
         except ValueError:
-            print("Please enter a valid integer")
+            print("Please enter a valid integer.")
 
+# Replace the SPEED constant with user input
 SPEED = get_speed_input()
+
 
 color_map = {
     "black": "#000000",
