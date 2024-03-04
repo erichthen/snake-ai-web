@@ -29,8 +29,17 @@ def load_high_score():
     try:
        with open('highscore.txt', 'r') as file:
           high_score, high_speed = map(int, file.read().split(','))
+    ##no highscore file yet, make one w initial highscore,speed = 0
     except FileNotFoundError:
-       high_score, high_speed = 0, 0
+        high_score, high_speed = 0, 0
+        with open('highscore.txt', 'w') as file:
+            file.write(f"{high_score},{high_speed}")
+    #file exists, cant be read, overwrite it with initial vals
+    except ValueError:
+        high_score, high_speed = 0, 0
+        with open('highscore.txt', 'w') as file:
+            file.write(f"{high_score},{high_speed}")
+
 
 #constants user chooses: SPEED, COLORS: SNAKE, FOOD, BACKGROUND
 def get_speed_input():
