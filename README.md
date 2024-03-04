@@ -20,6 +20,5 @@ WIP: different game modes
      windowsize as input
      option to redo chosen inputs before running  
      less ratchet game over  
-     
      sound implemented for eating and dying
 
