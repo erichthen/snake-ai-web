@@ -6,6 +6,8 @@ HEIGHT = 500
 SPACE_SIZE = 20
 BODY_SIZE = 2
 
+game_over_flag = False
+
 #constants user chooses: SPEED, COLORS: SNAKE, FOOD, BACKGROUND
 def get_speed_input():
    
@@ -23,9 +25,8 @@ def get_speed_input():
         except ValueError:
             print("Please enter a valid integer.")
 
-# Replace the SPEED constant with user input
-SPEED = get_speed_input()
-
+# set the speed to input
+speed = get_speed_input()
 
 color_map = {
     "black": "#000000",
@@ -137,7 +138,7 @@ def next_turn(snake, food):
     game_over() 
 
   else: 
-    window.after(SPEED, next_turn, snake, food) 
+    window.after(speed, next_turn, snake, food) 
 
 # Function to control direction of snake 
 def change_direction(new_direction): 
@@ -175,20 +176,33 @@ def check_collisions(snake):
 
 #control flow
 def game_over(): 
-
+  
+  global game_over_flag
+  game_over_flag = True
   canvas.delete(ALL) 
   canvas.create_text(canvas.winfo_width()/2, 
           canvas.winfo_height()/2, 
-          font=('consolas', 70), 
-          text="GAME OVER", fill="red", 
-          tag="gameover") 
+          font=('freesansbold', 40), 
+          text="GAME OVER\nPress r to restart", fill="red", tag="gameover") 
+  
+def restart_game(event):
+   
+  global game_over_flag, snake, food, score, direction
+  if game_over_flag:
+    canvas.delete(ALL)
+    score = 0
+    direction = 'down'
+    label.config(text="Points:{}".format(score))
+    snake = Snake()
+    food = Food()
+    next_turn(snake, food)
+    game_over_flag = False
 
 #setting shit up
 window = Tk() 
 window.title("Snake game") 
 score = 0
 direction = 'down'
-
 
 label = Label(window, text="Points:{}".format(score), 
       font=('consolas', 20)) 
@@ -209,6 +223,7 @@ y = int((screen_height/2) - (window_height/2))
 
 window.geometry(f"{window_width}x{window_height}+{x}+{y}") 
 
+#buttons, interacting with game
 window.bind('<Left>', 
       lambda event: change_direction('left')) 
 window.bind('<Right>', 
@@ -217,6 +232,7 @@ window.bind('<Up>',
       lambda event: change_direction('up')) 
 window.bind('<Down>', 
       lambda event: change_direction('down')) 
+window.bind('r', restart_game)
 
 snake = Snake() 
 food = Food() 
