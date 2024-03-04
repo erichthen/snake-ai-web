@@ -2,7 +2,6 @@
 <ins>**How to play**</ins>  
 **1.clone repository**  
 **1.5.Have python installed**  
-**2.check that you have tkinter with python3 -m tkinter or python -m tkinter**  
 **2.5. install simpleaudio: pip install simpleaudio>**  
 **3.run with python3 main.py or python main.py**    
 **4.Choose your game speed, snake color, food color, bg color (use name of color i.e. "black")**     
