@@ -10,7 +10,7 @@ BODY_SIZE = 2
 def get_speed_input():
    
     while True:
-        user_input = input("Select speed (50-300), lower is faster, default is 125.\nEnter blank for default: ")
+        user_input = input("Select speed (50-300), lower is faster, default (no input) is 125. \nSpeed: ")
         if user_input.strip() == "":
             return 125  #default
 
