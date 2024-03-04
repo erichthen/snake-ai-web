@@ -1,19 +1,60 @@
-# Program in Python to create a Snake Game 
-
 from tkinter import *
 import random 
 
-# Initialising Dimensions of Game 
 WIDTH = 500
 HEIGHT = 500
-SPEED = 200
 SPACE_SIZE = 20
 BODY_SIZE = 2
-SNAKE = "#00FF00"
-FOOD = "#FFFFFF"
-BACKGROUND = "#000000"
 
-# Class to design the snake 
+#constants user chooses: SPEED, COLORS: SNAKE, FOOD, BACKGROUND
+def get_speed_input():
+  while True:
+        try:
+            speed = int(input("Select speed (100-400). Lower is faster: "))
+            if 100 <= speed <= 400:
+                return speed
+            else:
+                print("Speed must be between 150 and 300.")
+        except ValueError:
+            print("Please enter a valid integer.")
+
+SPEED = get_speed_input()
+
+color_map = {
+    "black": "#000000",
+    "white": "#FFFFFF",
+    "red": "#FF0000",
+    "green": "#00FF00",
+    "blue": "#0000FF",
+    "yellow": "#FFFF00",
+    "pink": "#FFC0CB",
+    "orange": "#FFA500",
+    "purple": "#800080",
+    "grey": "#808080",
+}
+
+def get_unique_color_input(prompt):
+    while True:
+        color = input(prompt).lower()
+        if color in color_map:  
+            return color
+        else:
+            print("Color is not mapped, please try another color: ")
+
+def get_all_colors():
+    while True:
+        snake_color = get_unique_color_input("Set snake color: ")
+        food_color = get_unique_color_input("Set food color: ")
+        background_color = get_unique_color_input("Set background color: ")
+
+        if snake_color != food_color and snake_color != background_color and food_color != background_color:
+            return snake_color, food_color, background_color
+        else:
+            print("You cannot use the same color for more than one element. Please choose different colors.")
+
+# Use the function to get the colors
+SNAKE, FOOD, BACKGROUND = get_all_colors()
+
 class Snake: 
 
   def __init__(self): 
@@ -40,7 +81,7 @@ class Food:
 
     self.coordinates = [x, y] 
 
-    canvas.create_oval(x, y, x + SPACE_SIZE, y +
+    canvas.create_rectangle(x, y, x + SPACE_SIZE, y +
             SPACE_SIZE, fill=FOOD, tag="food") 
 
 # Function to check the next move of snake 
@@ -125,7 +166,7 @@ def check_collisions(snake):
 
   return False
 
-# Function to control everything 
+#control flow
 def game_over(): 
 
   canvas.delete(ALL) 
@@ -135,15 +176,12 @@ def game_over():
           text="GAME OVER", fill="red", 
           tag="gameover") 
 
-# Giving title to the gaming window 
-
-
+#setting shit up
 window = Tk() 
 window.title("Snake game") 
 score = 0
 direction = 'down'
 
-# Display of Points Scored in Game 
 
 label = Label(window, text="Points:{}".format(score), 
       font=('consolas', 20)) 
