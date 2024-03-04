@@ -4,7 +4,6 @@
 **1.5.Have python installed**  
 **2.check that you have tkinter with python3 -m tkinter or python -m tkinter**  
 **2.5. install simpleaudio: pip install simpleaudio>**  
-**3.Clear highscore.txt**  
 **3.run with python3 main.py or python main.py**    
 **4.Choose your game speed, snake color, food color, bg color (use name of color i.e. "black")**     
 **5.Arrow keys to move, don't run into the wall, run into the blocks that pop up, don't run into yourself**  
@@ -14,11 +13,13 @@ and working with git and github
 
 updates: game over is visible if background is red  
          highscore tracking, speed of when highscore was achieved  
+         make and handle txt automatically
          sound implemented for eating and dying  
  
 WIP: different game modes  
      windowsize as input
      option to redo chosen inputs before running  
-     less ratchet game over
-         sound implemented for eating and dying
+     less ratchet game over  
+     
+     sound implemented for eating and dying
 
