@@ -7,5 +7,5 @@
 **5.Arrow keys to move, don't run into yourself or the wall, eat the food, have fun.**  
 
 
-TODO: make sure game over is visible if background is red  
-      implement highscore tracking
+WIP: make sure game over is visible if background is red  
+implement highscore tracking, find a way to say what the speed of the game was when highscore was reached
