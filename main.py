@@ -16,6 +16,19 @@ game_over_flag = False
 high_score = 0
 high_speed = 0
 
+color_map = {
+    "black": "#000000",
+    "white": "#FFFFFF",
+    "red": "#FF0000",
+    "green": "#00FF00",
+    "blue": "#0000FF",
+    "yellow": "#FFFF00",
+    "pink": "#FFC0CB",
+    "orange": "#FFA500",
+    "purple": "#800080",
+    "grey": "#808080",
+}
+
 #functions for score and highscore handling
 def update_score_label():
     label.config(text=f"Points: {score}  Highscore: {high_score} with speed: {high_speed}")
@@ -45,36 +58,37 @@ def load_high_score():
 def get_speed_input():
    
     while True:
-        user_input = input("Select speed (25-200), lower is faster\nDefault (no input) is 100.\nSpeed: ")
+        
+        user_input = input("\nSelect speed (25-200), lower is faster\nDefault (no input) is 100.\n\nSpeed: \n")
+        
         if user_input.strip() == "":
+            print("speed set to 100\n")
             return 100  #default
+        
         try:
             speed = int(user_input)
             #hard
-            if speed <= 40:
+            if speed > 0 and speed <=50:
                print("good luck lol")
+            #redundant
+            elif speed == 100:
+               print("couldve just entered but ok")
+               print("speed set to 100\n")
+            
             if 25 <= speed <= 200:
                 return speed
+            
             else:
-                print("Speed must be between 50 and 300.")
+               raise ValueError
+            
+        #not valid
         except ValueError:
-            print("Please enter a valid integer.")
+            print("\n**Ivalid input**\n")
 
 # set the speed to input
 speed = get_speed_input()
 
-color_map = {
-    "black": "#000000",
-    "white": "#FFFFFF",
-    "red": "#FF0000",
-    "green": "#00FF00",
-    "blue": "#0000FF",
-    "yellow": "#FFFF00",
-    "pink": "#FFC0CB",
-    "orange": "#FFA500",
-    "purple": "#800080",
-    "grey": "#808080",
-}
+
 
 def get_unique_color_input(prompt):
     while True:
