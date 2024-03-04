@@ -15,9 +15,11 @@ def get_speed_input():
         user_input = input("Select speed (25-200), lower is faster, default (no input) is 100. \nSpeed: ")
         if user_input.strip() == "":
             return 100  #default
-
         try:
             speed = int(user_input)
+            #hard
+            if speed <= 40:
+               print("good luck lol")
             if 25 <= speed <= 200:
                 return speed
             else:
