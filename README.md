@@ -1,4 +1,5 @@
-# Simple Snake Game  
+# Simple Snake Game 
+## Made to familiarize myself better with tkinter module
 ## How to play  
 **1.clone repository**   
 **2.check that you have tkinter with python3 -m tkinter or python -m tkinter**  
