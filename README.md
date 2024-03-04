@@ -13,7 +13,6 @@ Made to better familiarize myself with the python tkinter module
 
 updates: game over is visible if background is red  
          highscore tracking, speed of when highscore was achieved  
-         snake no longer has black outlines for each cell, looks smoother  
          sound implemented for eating and dying
 
 WIP: different game modes
