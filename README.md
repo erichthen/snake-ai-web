@@ -7,12 +7,16 @@
 **3.Clear highscore.txt**  
 **3.run with python3 main.py or python main.py**    
 **4.Choose your game speed, snake color, food color, bg color (use name of color i.e. "black")**     
-**5.Arrow keys to move, don't run into yourself or the wall, eat the food, have fun.**  
+**5.Arrow keys to move, don't run into the wall, run into the blocks that pop up, don't run into yourself**  
 
 Made to better familiarize myself with the python tkinter module
 
 updates: game over is visible if background is red  
          highscore tracking, speed of when highscore was achieved  
+         sound implemented for eating and dying  
+ 
+WIP: different game modes  
+     option to redo chosen inputs before running  
+     less ratchet game over
          sound implemented for eating and dying
-
 
