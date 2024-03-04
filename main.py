@@ -8,6 +8,26 @@ BODY_SIZE = 2
 
 game_over_flag = False
 
+#keeping track of high score, and speed of game in which high score was achieved
+high_score = 0
+high_speed = 0
+
+#functions for score and highscore handling
+def update_score_label():
+    label.config(text=f"Points: {score}  Highscore: {high_score} with speed: {high_speed}")
+
+def save_high_score():
+  with open('highscore.txt', 'w') as file:
+    file.write(f"{high_score},{high_speed}")
+
+def load_high_score():
+    global high_score, high_speed
+    try:
+       with open('highscore.txt', 'r') as file:
+          high_score, high_speed = map(int, file.read().split(','))
+    except FileNotFoundError:
+       high_score, high_speed = 0, 0
+
 #constants user chooses: SPEED, COLORS: SNAKE, FOOD, BACKGROUND
 def get_speed_input():
    
@@ -51,6 +71,7 @@ def get_unique_color_input(prompt):
         else:
             print("Color is not mapped, please try another color: ")
 
+
 def get_all_colors():
     while True:
         snake_color = get_unique_color_input("Set snake color: ")
@@ -61,9 +82,9 @@ def get_all_colors():
             return snake_color, food_color, background_color
         else:
             print("You cannot use the same color for more than one element. Please choose different colors.")
-
 # Use the function to get the colors
 SNAKE, FOOD, BACKGROUND = get_all_colors()
+
 
 class Snake: 
 
@@ -94,9 +115,9 @@ class Food:
     canvas.create_rectangle(x, y, x + SPACE_SIZE, y +
             SPACE_SIZE, fill=FOOD, tag="food") 
 
+
 # Function to check the next move of snake 
 def next_turn(snake, food): 
-
   x, y = snake.coordinates[0] 
 
   if direction == "up": 
@@ -117,23 +138,15 @@ def next_turn(snake, food):
   snake.squares.insert(0, square) 
 
   if x == food.coordinates[0] and y == food.coordinates[1]: 
-
     global score 
-
     score += 1
-
-    label.config(text="Points:{}".format(score)) 
-
+    update_score_label()
     canvas.delete("food") 
-
     food = Food() 
 
   else: 
-
     del snake.coordinates[-1] 
-
     canvas.delete(snake.squares[-1]) 
-
     del snake.squares[-1] 
 
   if check_collisions(snake): 
@@ -142,9 +155,9 @@ def next_turn(snake, food):
   else: 
     window.after(speed, next_turn, snake, food) 
 
+
 # Function to control direction of snake 
 def change_direction(new_direction): 
-
   global direction 
 
   if new_direction == 'left': 
@@ -160,9 +173,9 @@ def change_direction(new_direction):
     if direction != 'up': 
       direction = new_direction 
 
+
 # function to check snake's collision and position 
 def check_collisions(snake): 
-
   x, y = snake.coordinates[0] 
 
   if x < 0 or x >= WIDTH: 
@@ -176,25 +189,33 @@ def check_collisions(snake):
 
   return False
 
-#control flow
 def game_over(): 
-  
-  global game_over_flag
+  global game_over_flag, high_score, high_speed, score
   game_over_flag = True
   canvas.delete(ALL) 
+
+  #no invisible text if bg is red
+  game_over_text_color = "black" if BACKGROUND == "red" else "red"
+  
+  #check for high score, assign speed if high score is changed
+  if score > high_score:
+     high_score = score
+     high_speed = speed
+     update_score_label()
+     save_high_score()
+
   canvas.create_text(canvas.winfo_width()/2, 
           canvas.winfo_height()/2, 
           font=('freesansbold', 40), 
-          text="GAME OVER\nPress r to restart", fill="red", tag="gameover") 
+          text="GAME OVER\nPress r to restart", fill = game_over_text_color, tag="gameover") 
   
 def restart_game(event):
-   
   global game_over_flag, snake, food, score, direction
   if game_over_flag:
     canvas.delete(ALL)
     score = 0
     direction = 'down'
-    label.config(text="Points:{}".format(score))
+    update_score_label()
     snake = Snake()
     food = Food()
     next_turn(snake, food)
@@ -206,9 +227,12 @@ window.title("Snake game")
 score = 0
 direction = 'down'
 
-label = Label(window, text="Points:{}".format(score), 
-      font=('consolas', 20)) 
-label.pack() 
+label = Label(window, text=f"Points: {score}  Highscore: {high_score} with speed: {high_speed}", 
+              font=('consolas', 20)) 
+label.pack()
+
+load_high_score()
+update_score_label()
 
 canvas = Canvas(window, bg=BACKGROUND, height=HEIGHT, width=WIDTH) 
 canvas.pack() 
@@ -226,15 +250,12 @@ y = int((screen_height/2) - (window_height/2))
 window.geometry(f"{window_width}x{window_height}+{x}+{y}") 
 
 #buttons, interacting with game
-window.bind('<Left>', 
-      lambda event: change_direction('left')) 
-window.bind('<Right>', 
-      lambda event: change_direction('right')) 
-window.bind('<Up>', 
-      lambda event: change_direction('up')) 
-window.bind('<Down>', 
-      lambda event: change_direction('down')) 
+window.bind('<Left>', lambda event: change_direction('left')) 
+window.bind('<Right>', lambda event: change_direction('right')) 
+window.bind('<Up>', lambda event: change_direction('up')) 
+window.bind('<Down>', lambda event: change_direction('down')) 
 window.bind('r', restart_game)
+
 
 snake = Snake() 
 food = Food() 
