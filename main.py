@@ -1,5 +1,9 @@
 from tkinter import *
 import random 
+import simpleaudio as sa
+
+pop = sa.WaveObject.from_wave_file("pop.wav")
+uhhhh = sa.WaveObject.from_wave_file("uhhhh.wav")
 
 WIDTH = 500
 HEIGHT = 500
@@ -32,7 +36,7 @@ def load_high_score():
 def get_speed_input():
    
     while True:
-        user_input = input("Select speed (25-200), lower is faster, default (no input) is 100. \nSpeed: ")
+        user_input = input("Select speed (25-200), lower is faster\nDefault (no input) is 100.\nSpeed: ")
         if user_input.strip() == "":
             return 100  #default
         try:
@@ -71,9 +75,10 @@ def get_unique_color_input(prompt):
         else:
             print("Color is not mapped, please try another color: ")
 
-
 def get_all_colors():
+    
     while True:
+        
         snake_color = get_unique_color_input("Set snake color: ")
         food_color = get_unique_color_input("Set food color: ")
         background_color = get_unique_color_input("Set background color: ")
@@ -82,9 +87,9 @@ def get_all_colors():
             return snake_color, food_color, background_color
         else:
             print("You cannot use the same color for more than one element. Please choose different colors.")
+
 # Use the function to get the colors
 SNAKE, FOOD, BACKGROUND = get_all_colors()
-
 
 class Snake: 
 
@@ -97,8 +102,9 @@ class Snake:
       self.coordinates.append([0, 0]) 
 
     for x, y in self.coordinates: 
-      square = canvas.create_rectangle( x, y, x + SPACE_SIZE, y + SPACE_SIZE, fill=SNAKE, tag="snake") 
+      square = canvas.create_rectangle(x,y,x+SPACE_SIZE,y+SPACE_SIZE,fill=SNAKE,tag="snake") 
       self.squares.append(square) 
+
 
 # Class to design the food 
 class Food: 
@@ -140,6 +146,7 @@ def next_turn(snake, food):
   if x == food.coordinates[0] and y == food.coordinates[1]: 
     global score 
     score += 1
+    pop.play()
     update_score_label()
     canvas.delete("food") 
     food = Food() 
@@ -151,6 +158,7 @@ def next_turn(snake, food):
 
   if check_collisions(snake): 
     game_over() 
+    uhhhh.play()
 
   else: 
     window.after(speed, next_turn, snake, food) 
@@ -193,10 +201,8 @@ def game_over():
   global game_over_flag, high_score, high_speed, score
   game_over_flag = True
   canvas.delete(ALL) 
-
   #no invisible text if bg is red
   game_over_text_color = "black" if BACKGROUND == "red" else "red"
-  
   #check for high score, assign speed if high score is changed
   if score > high_score:
      high_score = score
@@ -260,6 +266,6 @@ window.bind('r', restart_game)
 snake = Snake() 
 food = Food() 
 
-next_turn(snake, food) 
+next_turn(snake, food)
 
-window.mainloop() 
+window.mainloop()
