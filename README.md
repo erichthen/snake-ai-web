@@ -11,7 +11,7 @@
 Made to better familiarize myself with the python tkinter module
 
 updates: game over is visible if background is red  
-         highscore tracking, speed of when highscore was achieved
+         highscore tracking, speed of when highscore was achieved  
          sound implemented for eating and dying
 
 WIP: different game modes
