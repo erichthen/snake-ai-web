@@ -9,7 +9,7 @@
 
 Made to better familiarize myself with the python tkinter module
 
-WIP:
-
 updates: game over is visible if background is red  
          highscore tracking, speed of when highscore was achieved
+
+WIP: sound, different game modes
