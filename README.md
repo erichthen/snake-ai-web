@@ -16,9 +16,10 @@ updates: game over is visible if background is red
          make and handle txt automatically
          sound implemented for eating and dying  
  
-WIP: different game modes  
-     windowsize as input
-     option to redo chosen inputs before running  
-     less ratchet game over  
-     sound implemented for eating and dying
+WIP:  
+different game modes  
+windowsize as input  
+option to redo chosen inputs before running  
+less ratchet game over  
+sound implemented for eating and dying
 
