@@ -1,6 +1,7 @@
 # Simple Snake Game  
 <ins>**How to play**</ins>  
-**1.clone repository**   
+**1.clone repository** 
+**1.5.Have python installed**  
 **2.check that you have tkinter with python3 -m tkinter or python -m tkinter**  
 **2.5. install simpleaudio: pip install simpleaudio>**  
 **3.Clear highscore.txt**  
