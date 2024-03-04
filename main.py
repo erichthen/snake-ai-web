@@ -150,7 +150,7 @@ def next_turn(snake, food):
     update_score_label()
     canvas.delete("food") 
     food = Food() 
-
+  #creates movement effect
   else: 
     del snake.coordinates[-1] 
     canvas.delete(snake.squares[-1]) 

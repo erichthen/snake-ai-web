@@ -15,4 +15,4 @@ updates: game over is visible if background is red
          highscore tracking, speed of when highscore was achieved  
          sound implemented for eating and dying
 
-WIP: different game modes
+
