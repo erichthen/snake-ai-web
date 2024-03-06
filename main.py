@@ -17,8 +17,8 @@ high_score = 0
 high_speed = 0
 
 color_map = {
-    "black": "#000000",
-    "white": "#FFFFFF",
+    "black": "#000000",  #hex numbers represents colors
+    "white": "#FFFFFF", 
     "red": "#FF0000",
     "green": "#00FF00",
     "blue": "#0000FF",
@@ -53,25 +53,25 @@ def load_high_score():
         with open('highscore.txt', 'w') as file:
             file.write(f"{high_score},{high_speed}")
 
-#to implement later: window options
+
 #constants user chooses: SPEED, COLORS: SNAKE, FOOD, BACKGROUND, WIDTH, HEIGHT
-# def get_window_size_input():
-#     size_map = {
-#         "small": 500,
-#         "medium": 750,
-#         "large": 1000
-#     }
+def get_window_size_input():
+    size_map = {
+        "small": 500,
+        "medium": 650,
+        "large": 800
+    }
 
-#     while True:
-#         size_input = input("Enter window size (small, medium, large):\n").lower()
-#         if size_input in size_map:
-#             return size_map[size_input]
-#         else:
-#             print("Please enter 'small', 'medium', or 'large'.")
+    while True:
+        size_input = input("Enter window size (small, medium, large):\n").lower()
+        if size_input in size_map:
+            return size_map[size_input]
+        else:
+            print("Please enter 'small', 'medium', or 'large'.")
 
-# window_size = get_window_size_input()
-# WIDTH = window_size
-# HEIGHT = window_size
+window_size = get_window_size_input()
+WIDTH = window_size
+HEIGHT = window_size
 
 def get_speed_input():
    
@@ -142,7 +142,7 @@ class Snake:
       self.coordinates.append([0, 0]) 
 
     for x, y in self.coordinates: 
-      square = canvas.create_rectangle(x,y,x+SPACE_SIZE,y+SPACE_SIZE,fill=SNAKE,outline=SNAKE, tag="snake") 
+      square = canvas.create_rectangle(x,y,x+SPACE_SIZE,y+SPACE_SIZE,fill=SNAKE, tag="snake") 
       self.squares.append(square) 
 
 
@@ -151,15 +151,12 @@ class Food:
 
   def __init__(self): 
 
-    x = random.randint(0, 
-        (WIDTH / SPACE_SIZE)-1) * SPACE_SIZE 
-    y = random.randint(0, 
-        (HEIGHT / SPACE_SIZE) - 1) * SPACE_SIZE 
+    x = random.randint(0, (WIDTH // SPACE_SIZE)-1) * SPACE_SIZE
+    y = random.randint(0, (HEIGHT // SPACE_SIZE) - 1) * SPACE_SIZE 
 
     self.coordinates = [x, y] 
 
-    canvas.create_rectangle(x, y, x + SPACE_SIZE, y +
-            SPACE_SIZE, fill=FOOD, tag="food") 
+    canvas.create_rectangle(x, y, x + SPACE_SIZE, y + SPACE_SIZE, fill=FOOD, tag="food") 
 
 
 # Function to check the next move of snake 
@@ -179,7 +176,7 @@ def next_turn(snake, food):
 
   square = canvas.create_rectangle( 
     x, y, x + SPACE_SIZE, 
-        y + SPACE_SIZE, fill=SNAKE, outline=SNAKE) 
+        y + SPACE_SIZE, fill=SNAKE) 
 
   snake.squares.insert(0, square) 
 
