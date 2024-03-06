@@ -21,7 +21,7 @@ better game over window
 start button/start screen  
 fixed bugs with window size input/output  
 
-WIP: 
+WIP:  
 UI preference selection  
 different game modes  
 option to redo chosen inputs before running , prompt confirmation before running  
