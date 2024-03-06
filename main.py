@@ -7,10 +7,11 @@ uhhhh = sa.WaveObject.from_wave_file("uhhhh.wav")
 
 SPACE_SIZE = 20
 BODY_SIZE = 2
-WIDTH = 500
-HEIGHT = 500
 
 game_over_flag = False
+
+score = 0
+direction = 'down'
 
 #keeping track of high score, and speed of game in which high score was achieved
 high_score = 0
@@ -29,32 +30,7 @@ color_map = {
     "grey": "#808080",
 }
 
-#functions for score and highscore handling
-def update_score_label():
-    label.config(text=f"Points: {score}")
 
-def save_high_score():
-  with open('highscore.txt', 'w') as file:
-    file.write(f"{high_score},{high_speed}")
-
-def load_high_score():
-    global high_score, high_speed
-    try:
-       with open('highscore.txt', 'r') as file:
-          high_score, high_speed = map(int, file.read().split(','))
-    ##no highscore file yet, make one w initial highscore,speed = 0
-    except FileNotFoundError:
-        high_score, high_speed = 0, 0
-        with open('highscore.txt', 'w') as file:
-            file.write(f"{high_score},{high_speed}")
-    #file exists, cant be read, overwrite it with initial vals
-    except ValueError:
-        high_score, high_speed = 0, 0
-        with open('highscore.txt', 'w') as file:
-            file.write(f"{high_score},{high_speed}")
-
-
-#constants user chooses: SPEED, COLORS: SNAKE, FOOD, BACKGROUND, WIDTH, HEIGHT
 def get_window_size_input():
     size_map = {
         "small": 500,
@@ -130,6 +106,56 @@ def get_all_colors():
 
 # Use the function to get the colors
 SNAKE, FOOD, BACKGROUND = get_all_colors()
+
+def start_game():
+  start_canvas.pack_forget()
+  setup_game()
+  next_turn(snake, food)
+
+
+def setup_game():
+    global canvas, snake, food, score, direction
+    score = 0
+    direction = 'down'
+    canvas = Canvas(window, bg=BACKGROUND, height=HEIGHT, width=WIDTH)
+    canvas.pack()
+    load_high_score()
+    update_score_label()
+    snake = Snake()
+    food = Food()
+    window.bind('<Left>', lambda event: change_direction('left'))
+    window.bind('<Right>', lambda event: change_direction('right'))
+    window.bind('<Up>', lambda event: change_direction('up'))
+    window.bind('<Down>', lambda event: change_direction('down'))
+    window.bind('r', restart_game)
+
+
+#functions for score and highscore handling
+def update_score_label():
+    label.config(text=f"Points: {score}")
+
+def save_high_score():
+  with open('highscore.txt', 'w') as file:
+    file.write(f"{high_score},{high_speed}")
+
+def load_high_score():
+    global high_score, high_speed
+    try:
+       with open('highscore.txt', 'r') as file:
+          high_score, high_speed = map(int, file.read().split(','))
+    ##no highscore file yet, make one w initial highscore,speed = 0
+    except FileNotFoundError:
+        high_score, high_speed = 0, 0
+        with open('highscore.txt', 'w') as file:
+            file.write(f"{high_score},{high_speed}")
+    #file exists, cant be read, overwrite it with initial vals
+    except ValueError:
+        high_score, high_speed = 0, 0
+        with open('highscore.txt', 'w') as file:
+            file.write(f"{high_score},{high_speed}")
+
+
+#constants user chooses: SPEED, COLORS: SNAKE, FOOD, BACKGROUND, WIDTH, HEIGHT
 
 class Snake: 
 
@@ -263,8 +289,6 @@ def game_over():
     canvas.create_text(WIDTH // 2, HEIGHT // 2 + 20, text=highscore_text, fill=text_color, font=('Helvetica', 16))
 
    
-
-  
 def restart_game(event):
   global game_over_flag, snake, food, score, direction
   if game_over_flag:
@@ -277,45 +301,44 @@ def restart_game(event):
     next_turn(snake, food)
     game_over_flag = False
 
+
+def update_button_style(event=None):
+    play_button.config(bg="green", activebackground="green")
+
 #setting shit up
-window = Tk() 
-window.title("Snake game") 
-score = 0
-direction = 'down'
+# Setting up the main window
+window = Tk()
+window.title("Snake Game")
 
-label = Label(window, text=f"Points: {score}  Highscore: {high_score} with speed: {high_speed}", 
-              font=('consolas', 20)) 
-label.pack()
+label = Label(window, text=f"Points: {score}  Highscore: {high_score} with speed: {high_speed}", font=('consolas', 20))
+label.pack(side=TOP)
 
-load_high_score()
-update_score_label()
+# Start screen setup
+start_canvas = Canvas(window, bg="black", height=HEIGHT, width=WIDTH)
+start_canvas.pack()
 
-canvas = Canvas(window, bg=BACKGROUND, height=HEIGHT, width=WIDTH) 
-canvas.pack() 
+play_button = Button(window, text=u"\u25B6", font=("Helvetica", 20), 
+                     bg="green", fg="white", activebackground="green", 
+                     highlightbackground="green", command=start_game, 
+                     highlightthickness=0)
+play_button_window = start_canvas.create_window(WIDTH // 2, HEIGHT // 2, window=play_button)
 
-window.update() 
+window.bind("<FocusIn>", update_button_style)
 
-window_width = window.winfo_width() 
-window_height = window.winfo_height() 
-screen_width = window.winfo_screenwidth() 
-screen_height = window.winfo_screenheight() 
+# Main game setup (deferred until the play button is clicked)
+setup_game()
+canvas.pack_forget()
 
-x = int((screen_width/2) - (window_width/2)) 
-y = int((screen_height/2) - (window_height/2)) 
+# Set window size explicitly to be slightly larger than the canvas
+window_size_padding = 40  # Extra space to accommodate other elements
+window.geometry(f"{WIDTH}x{HEIGHT + window_size_padding}")
 
-window.geometry(f"{window_width}x{window_height}+{x}+{y}") 
+# Center the window on the screen
+screen_width = window.winfo_screenwidth()
+screen_height = window.winfo_screenheight()
+x = (screen_width // 2) - (WIDTH // 2)
+y = (screen_height // 2) - ((HEIGHT + window_size_padding) // 2)
+window.geometry(f"+{x}+{y}")
 
-#buttons, interacting with game
-window.bind('<Left>', lambda event: change_direction('left')) 
-window.bind('<Right>', lambda event: change_direction('right')) 
-window.bind('<Up>', lambda event: change_direction('up')) 
-window.bind('<Down>', lambda event: change_direction('down')) 
-window.bind('r', restart_game)
-
-
-snake = Snake() 
-food = Food() 
-
-next_turn(snake, food)
-
+# Start the main event loop
 window.mainloop()
