@@ -24,8 +24,9 @@ fixed bugs with window size input/output
 WIP: 
 UI preference selection  
 different game modes  
-option to redo chosen inputs before running , prompt confirmation before running    
+option to redo chosen inputs before running , prompt confirmation before running  
 choose settings on screen, rather than in terminal  
+color start button, make start screen look good  
 
 
 
