@@ -25,10 +25,11 @@ def setup_game():
     score = 0
     direction = 'down'
     score_label = tk.Label(window, text=f"Points: {score}", font=('consolas', 20), bg='white')
+    canvas.pack()
     score_label.place(x=0, y=0, width=settings.WIDTH)
-    canvas.pack(fill='both', expand=True)
     load_high_score()
     update_score_label()
+    
 
 def game_over(): 
     global high_score, high_speed, score
@@ -165,7 +166,7 @@ def check_collisions(snake):
 
   if x < 0 or x >= settings.WIDTH: 
     return True
-  elif y < 0 or y >= settings.HEIGHT: 
+  elif y < 2 or y >= settings.HEIGHT: 
     return True
 
   for body_part in snake.coordinates[1:]: 
@@ -209,12 +210,12 @@ def main():
     window.bind('<Down>', lambda event: change_direction('down'))
     window.bind('r', restart_game)
 
-    window_size_padding = 40
-    window.geometry(f"{settings.WIDTH}x{settings.HEIGHT + window_size_padding}")
+    
+    window.geometry(f"{settings.WIDTH}x{settings.HEIGHT}")
     screen_width = window.winfo_screenwidth()
     screen_height = window.winfo_screenheight()
     x = (screen_width // 2) - (settings.WIDTH // 2)
-    y = (screen_height // 2) - ((settings.HEIGHT + window_size_padding) // 2)
+    y = (screen_height // 2) - ((settings.HEIGHT) // 2)
     window.geometry(f"+{x}+{y}")
 
     window.mainloop()
