@@ -1,4 +1,4 @@
-# ill come back to this at some point  
+**ill come back to this at some point, lots of changes reverted got tired of debugging shit**
 
 
 # Simple Snake Game  
