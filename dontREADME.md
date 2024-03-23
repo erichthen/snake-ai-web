@@ -1,3 +1,6 @@
+# ill come back to this at some point  
+
+
 # Simple Snake Game  
 <ins>**How to play**</ins>  
 **1.clone repository**  
