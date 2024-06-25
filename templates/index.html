@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snake: ML model</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- loads socket.io client lib,   -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.3/socket.io.js"></script>
+</head>
+<body>
+    <h1>Snake Game –– Reinforcement Learning</h1>
+    <button id="start-button">Start Training</button>
+    <div id="game-window"> <!-- game window right here --> </div>
+    <h2 id="score">Score: 0</h2>
+    <h2 id="record">Record: 0</h2>
+    <script>
+        //initialize connection 
+        const socket = io();
+        document.getElementById('start-button').onclick = function() {
+            fetch('/start_game', {
+                method: 'POST' //post request to start the game
+            })
+            .then(response => response.json()) //process feedback
+            .then(data => {
+                if (data.status === 'Training started') {
+                    console.log('Training Started');                
+                }
+            });
+        };
+        //listen for game updates
+        socket.on('game_update', function(data) {
+            document.getElementById('score').innerText = 'Score: ' + data.score;
+            document.getElementById('record').innerText = 'Record: ' + data.record;
+            document.getElementById('plot').src = 'data:image/png;base64,' + data.plot;
+            document.getElementById('plot-container').style.display = 'block';
+        });
+    </script>
+</body>
+</html>

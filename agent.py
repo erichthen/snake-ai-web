@@ -2,9 +2,12 @@ import torch
 import random
 import numpy as np  
 from collections import deque
-from game import SnakeGameAI, Direction, Point
+from game import Direction, Point
 from model import Linear_QNet, QTrainer
-from helper import plot
+from plotting import plot
+from flask_socketio import SocketIO
+import eventlet
+
 
 MAX_MEMORY = 100_000
 BATCH_SIZE = 1000
@@ -101,28 +104,27 @@ class Agent:
         return final_move
 
 
-
-def train(): 
-    plot_scores = []
-    plot_mean_scores = []
-    total_score = 0
-    record = 0
-    agent = Agent()
-    game = SnakeGameAI()
-
+# Adjusted train function to work with Flask
+def train(agent, game, plot_scores, plot_mean_scores, total_score, record, socketio):
     while True:
-
+        # get old state
         state_old = agent.get_state(game)
+
+        # get move
         final_move = agent.get_action(state_old)
 
+        # perform move and get new state
         reward, done, score = game.play_step(final_move)
-
         state_new = agent.get_state(game)
+
+        # train short memory
         agent.train_short_memory(state_old, final_move, reward, state_new, done)
 
+        # remember
         agent.remember(state_old, final_move, reward, state_new, done)
 
         if done:
+            # train long memory, plot result
             game.reset()
             agent.num_games += 1
             agent.train_long_memory()
@@ -137,8 +139,16 @@ def train():
             total_score += score
             mean_score = total_score / agent.num_games
             plot_mean_scores.append(mean_score)
-            plot(plot_scores, plot_mean_scores)
+            plot_data = plot(plot_scores, plot_mean_scores)
+
+            # Emit game update
+            socketio.emit('game_update', {
+                'game_over': True,
+                'score': score,
+                'record': record,
+                'plot': plot_data
+            }, namespace='/')
+
+        eventlet.sleep(0.01)  # Add a small delay to simulate training time and allow other tasks to run
 
 
-if __name__ == '__main__':
-    train()
