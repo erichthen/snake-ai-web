@@ -1,0 +1,7 @@
+model/
+old_game.py
+snake_user.py
+__pycache__/
+snake_ai/
+sound/
+
