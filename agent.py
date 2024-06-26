@@ -94,14 +94,13 @@ def train(agent, game, plot_scores, plot_mean_scores, total_score, record, socke
     while True:
         state_old = agent.get_state(game)
         final_move = agent.get_action(state_old)
+
         reward, done, score = game.play_step(final_move)
         state_new = agent.get_state(game)
         agent.train_short_memory(state_old, final_move, reward, state_new, done)
         agent.remember(state_old, final_move, reward, state_new, done)
 
-        # Emit a frame so the game can be displayed in the browser
         img_data = game.get_image()
-        print(f"Emitting frame update with image data of length: {len(img_data)}")  # Debug print
         socketio.emit('frame_update', {'frame': img_data}, namespace='/')
 
         if done:
@@ -121,13 +120,7 @@ def train(agent, game, plot_scores, plot_mean_scores, total_score, record, socke
             plot_mean_scores.append(mean_score)
             plot_data = plot(plot_scores, plot_mean_scores)
 
-            # Emit a game update when an event collision (food, wall, or self) occurs
-            socketio.emit('game_update', {
-                'game_over': True,
-                'score': score,
-                'record': record,
-                'plot': plot_data
-            }, namespace='/')
+            socketio.emit('plot_update', {'plot': plot_data}, namespace='/')
 
         eventlet.sleep(0.01)  # Add a small delay to simulate training time and allow other tasks to run
 

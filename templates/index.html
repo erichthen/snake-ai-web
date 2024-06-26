@@ -9,53 +9,51 @@
 </head>
 <body>
     <h1>Snake Game –– Reinforcement Learning</h1>
-    <button id="start-button">Start Training</button>
-    <div id="game-window">
-        <canvas id="game-canvas" width="640" height="480" class="game-canvas"></canvas>
+    <div id="container">
+        <div id="game-window">
+            <canvas id="game-canvas" width="640" height="480" class="game-canvas"></canvas>
+        </div>
+        <div id="plot-container">
+            <img id="plot" src="" alt="Training Progress">
+        </div>
     </div>
-    <h2 id="score">Score: 0</h2>
-    <h2 id="record">Record: 0</h2>
-    <div id="plot-container" style="display:none;">
-        <img id="plot" src="" alt="Training Progress">
+    <div>
+        <button id="start-button">Start Training</button>
+    </div>
+    <div>
+        <h2 id="score">Score: 0</h2>
+        <h2 id="record">Record: 0</h2>
     </div>
     <script>
+
         const socket = io();
-        const canvas = document.getElementById('game-canvas');
-        const ctx = canvas.getContext('2d');
 
-        document.getElementById('start-button').onclick = function() {
+        document.getElementById('start-button').addEventListener('click', () => {
             fetch('/start_game', {
-                method: 'POST'
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'Training started') {
-                    console.log('Training Started');
-                }
-            });
-        };
-
-        socket.on('frame_update', function(data) {
-            console.log('Received frame update');  // Debug print
-            console.log('Frame data:', data.frame.slice(0, 50) + '...');  // Print part of the frame data for inspection
+                method: 'POST',
+            }).then(response => response.json())
+            .then(data => console.log(data));
+        });
+        socket.on('frame_update', (data) => {
+            const gameCanvas = document.getElementById('game-canvas');
+            const context = gameCanvas.getContext('2d');
             const image = new Image();
-            image.onload = function() {
-                console.log('Image loaded, drawing to canvas');  // Debug print
-                ctx.clearRect(0, 0, canvas.width, canvas.height);  // Clear the canvas before drawing new image
-                ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
-            };
-            image.onerror = function() {
-                console.error('Failed to load image');
-            };
             image.src = 'data:image/png;base64,' + data.frame;
-            console.log('Image source set');  // Debug print
+            image.onload = () => {
+                context.drawImage(image, 0, 0);
+            };
+            console.log("Frame data:", data.frame.slice(0, 50) + '...');  // log partial frame data for debugging
         });
 
-        socket.on('game_update', function(data) {
-            document.getElementById('score').innerText = 'Score: ' + data.score;
-            document.getElementById('record').innerText = 'Record: ' + data.record;
-            document.getElementById('plot').src = 'data:image/png;base64,' + data.plot;
-            document.getElementById('plot-container').style.display = 'block';
+        socket.on('plot_update', (data) => {
+            const plotImg = document.getElementById('plot');
+            plotImg.src = 'data:image/png;base64,' + data.plot;
+            console.log("Plot data:", data.plot.slice(0, 50) + '...');  // log partial plot data for debugging
+        });
+
+        socket.on('game_update', (data) => {
+            document.getElementById('score').innerText = data.score;
+            document.getElementById('record').innerText = data.record;
         });
     </script>
 </body>

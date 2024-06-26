@@ -1,21 +1,21 @@
 import matplotlib.pyplot as plt
-from IPython import display
-
-plt.ion()
+import base64
+import io
 
 def plot(scores, mean_scores):
-    display.clear_output(wait=True)
-    display.display(plt.gcf())
-    plt.clf()
-    plt.title('Training...')
-    plt.xlabel('Number of games')
-    plt.ylabel('Score')
-    plt.plot(scores)
-    plt.plot(mean_scores)
-    plt.ylim(ymin=0)
-    plt.text(len(scores)-1, scores[-1], str(scores[-1]))
-    plt.text(len(mean_scores)-1, mean_scores[-1], str(mean_scores[-1]))
-    plt.show(block=False)
-    plt.pause(0.1)
+    plt.ioff()  # Turn off interactive mode
+    fig, ax = plt.subplots(figsize=(10, 6))
+    ax.plot(scores, label='Score', color='blue', linestyle='-', marker='o')
+    ax.plot(mean_scores, label='Mean Score', color='red', linestyle='--', marker='x')
+    ax.set_title('Training Progress')
+    ax.set_xlabel('Number of Games')
+    ax.set_ylabel('Score')
+    ax.grid(True, linestyle='--', alpha=0.7)
+    ax.legend(loc='upper left')
+    buf = io.BytesIO()
+    fig.savefig(buf, format='png')
+    buf.seek(0)
+    plt.close(fig)  # Close the plot to prevent it from popping up
+    return base64.b64encode(buf.getvalue()).decode('utf-8')
 
 

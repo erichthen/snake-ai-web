@@ -120,9 +120,6 @@ class SnakeGameAI:
 
         pygame.draw.rect(self.display, RED, pygame.Rect(self.food.x, self.food.y, BLOCK_SIZE, BLOCK_SIZE))
 
-        text = font.render("Score: " + str(self.score), True, WHITE)
-        self.display.blit(text, [0, 0])
-
 
     def move(self, action):
 
@@ -162,4 +159,3 @@ class SnakeGameAI:
         img_base64 = base64.b64encode(buf.read()).decode('utf-8')
         print(f"Generated image wiht length: {len(img_base64)}")
         return img_base64
-3
