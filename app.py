@@ -9,7 +9,6 @@ from matplotlib import pyplot as plt
 import io
 import base64
 
-
 app = Flask(__name__)
 socketio = SocketIO(app)
 
@@ -38,13 +37,13 @@ def plot_to_base64():
     ax.set_ylabel('Score')
     ax.grid(True, linestyle='--', alpha=0.7)
     ax.legend(loc='upper left')
-    buf = io.BytesIO()  #saving to an in memory buffer rather than saving to a file
+    buf = io.BytesIO()  # Saving to an in-memory buffer rather than saving to a file
     fig.savefig(buf, format='png')
-    buf.seek(0) #move buffer position to beginning
-    #read contents of buffer and encode in base64
-    #doing this to embed binary data of image into html and json
-    #base64 returns bytes, so decode to convert to string
-    return base64.b64encode(buf.getvalue()).decode('utf-8') 
+    buf.seek(0)  # Move buffer position to the beginning
+    # Read contents of buffer and encode in base64
+    # Doing this to embed binary data of image into HTML and JSON
+    # Base64 returns bytes, so decode to convert to string
+    return base64.b64encode(buf.getvalue()).decode('utf-8')
 
 if __name__ == '__main__':
     socketio.run(app, debug=True)

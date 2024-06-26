@@ -1,57 +1,62 @@
 <!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Snake: ML model</title>
-    <link rel="stylesheet" href="style.css">
-    <!-- loads socket.io client lib,   -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.3/socket.io.js"></script>
 </head>
 <body>
     <h1>Snake Game –– Reinforcement Learning</h1>
     <button id="start-button">Start Training</button>
-    <div id="game-window"> 
-        <canvas id="game-canvas" width="640" height="480"></canvas>
+    <div id="game-window">
+        <canvas id="game-canvas" width="640" height="480" class="game-canvas"></canvas>
     </div>
-    <div id ="plot-container" style="display:none;">
+    <h2 id="score">Score: 0</h2>
+    <h2 id="record">Record: 0</h2>
+    <div id="plot-container" style="display:none;">
         <img id="plot" src="" alt="Training Progress">
+    </div>
     <script>
-
-        //initialize connection 
         const socket = io();
         const canvas = document.getElementById('game-canvas');
         const ctx = canvas.getContext('2d');
 
         document.getElementById('start-button').onclick = function() {
             fetch('/start_game', {
-                method: 'POST' //post request to start the game
+                method: 'POST'
             })
-            .then(response => response.json()) //process feedback
+            .then(response => response.json())
             .then(data => {
                 if (data.status === 'Training started') {
-                    console.log('Training Started');                
+                    console.log('Training Started');
                 }
             });
         };
 
-        //listen for frame updates
         socket.on('frame_update', function(data) {
+            console.log('Received frame update');  // Debug print
+            console.log('Frame data:', data.frame.slice(0, 50) + '...');  // Print part of the frame data for inspection
             const image = new Image();
             image.onload = function() {
+                console.log('Image loaded, drawing to canvas');  // Debug print
+                ctx.clearRect(0, 0, canvas.width, canvas.height);  // Clear the canvas before drawing new image
                 ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
             };
+            image.onerror = function() {
+                console.error('Failed to load image');
+            };
             image.src = 'data:image/png;base64,' + data.frame;
+            console.log('Image source set');  // Debug print
         });
 
-        //listen for game updates
         socket.on('game_update', function(data) {
             document.getElementById('score').innerText = 'Score: ' + data.score;
             document.getElementById('record').innerText = 'Record: ' + data.record;
             document.getElementById('plot').src = 'data:image/png;base64,' + data.plot;
             document.getElementById('plot-container').style.display = 'block';
         });
-
     </script>
-    </div>
 </body>
 </html>

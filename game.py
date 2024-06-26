@@ -111,6 +111,7 @@ class SnakeGameAI:
 
 
     def update(self):
+        
         self.display.fill(BLACK)
 
         for pt in self.snake:
@@ -156,7 +157,9 @@ class SnakeGameAI:
         img_str = pygame.image.tostring(self.display, "RGB")
         img = pygame.image.fromstring(img_str, (self.w, self.h), "RGB")
         buf = BytesIO()
-        pygame.image.save(img, buf)
+        pygame.image.save(img, buf, "PNG")
         buf.seek(0)
         img_base64 = base64.b64encode(buf.read()).decode('utf-8')
+        print(f"Generated image wiht length: {len(img_base64)}")
         return img_base64
+3
