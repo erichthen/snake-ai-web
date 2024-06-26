@@ -104,27 +104,24 @@ class Agent:
         return final_move
 
 
-# Adjusted train function to work with Flask
+# adjusted train function to work with Flask, handle requests, emit updates
 def train(agent, game, plot_scores, plot_mean_scores, total_score, record, socketio):
     while True:
-        # get old state
+
         state_old = agent.get_state(game)
 
-        # get move
         final_move = agent.get_action(state_old)
-
-        # perform move and get new state
         reward, done, score = game.play_step(final_move)
+
         state_new = agent.get_state(game)
 
-        # train short memory
         agent.train_short_memory(state_old, final_move, reward, state_new, done)
-
-        # remember
         agent.remember(state_old, final_move, reward, state_new, done)
 
+        img_data = game.get_image()
+        socketio.emit('frame_update', {'image' : img_data}, namespace='/')
+
         if done:
-            # train long memory, plot result
             game.reset()
             agent.num_games += 1
             agent.train_long_memory()

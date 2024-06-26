@@ -4,6 +4,8 @@ from enum import Enum
 from collections import namedtuple
 import numpy as np
 import simpleaudio as sa
+import base64
+from io import BytesIO
 
 pygame.init()
 pop = sa.WaveObject.from_wave_file("sound/pop.wav")
@@ -103,7 +105,6 @@ class SnakeGameAI:
             pt = self.head
         if pt.x > self.w - BLOCK_SIZE or pt.x < 0 or pt.y > self.h - BLOCK_SIZE or pt.y < 0:
             return True
-        # hits itself
         if pt in self.snake[1:]:
             return True
 
@@ -125,7 +126,6 @@ class SnakeGameAI:
 
 
     def move(self, action):
-        # [straight, right, left]
 
         clock_wise = [Direction.RIGHT, Direction.DOWN, Direction.LEFT, Direction.UP]
         idx = clock_wise.index(self.direction)
@@ -153,3 +153,12 @@ class SnakeGameAI:
             y -= BLOCK_SIZE
 
         self.head = Point(x, y)
+
+    def get_image(self):
+        img_str = pygame.image.tostring(self.display, "RGB")
+        img = pygame.image.fromstring(img_str, (self.w, self.h), "RGB")
+        buf = BytesIO()
+        pygame.image.save(img, buf)
+        buf.seek(0)
+        img_base64 = base64.b64encode(buf.read()).decode('utf-8')
+        return img_base64

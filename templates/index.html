@@ -10,12 +10,17 @@
 <body>
     <h1>Snake Game –– Reinforcement Learning</h1>
     <button id="start-button">Start Training</button>
-    <div id="game-window"> <!-- game window right here --> </div>
-    <h2 id="score">Score: 0</h2>
-    <h2 id="record">Record: 0</h2>
+    <div id="game-window"> 
+        <canvas id="game-canvas" width="640" height="480"></canvas>
+    </div>
+    <div id ="plot-container" style="display: none;">
+        <img id="plot" src="" alt="Training Progress">
     <script>
         //initialize connection 
         const socket = io();
+        const canvas = document.getElementById('game-canvas');
+        const ctx = canvas.getContext('2d');
+
         document.getElementById('start-button').onclick = function() {
             fetch('/start_game', {
                 method: 'POST' //post request to start the game
@@ -27,6 +32,16 @@
                 }
             });
         };
+
+        //listen for frame updates
+        socket.on('frame_update', function(data) {
+            const image = new Image();
+            image.onload = function() {
+                ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+            };
+            image.src = 'data:image/png;base64,' + data.frame;
+        });
+
         //listen for game updates
         socket.on('game_update', function(data) {
             document.getElementById('score').innerText = 'Score: ' + data.score;
