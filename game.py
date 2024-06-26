@@ -37,9 +37,8 @@ class SnakeGameAI:
     def __init__(self, w=640, h=480):
         self.w = w
         self.h = h
-        # init display
-        self.display = pygame.display.set_mode((self.w, self.h))
-        pygame.display.set_caption('Snake')
+        # init display as surface in order to send frame images to browser
+        self.display = pygame.Surface((self.w, self.h))
         self.clock = pygame.time.Clock()
         self.reset()
 
@@ -122,7 +121,6 @@ class SnakeGameAI:
 
         text = font.render("Score: " + str(self.score), True, WHITE)
         self.display.blit(text, [0, 0])
-        pygame.display.flip()
 
 
     def move(self, action):

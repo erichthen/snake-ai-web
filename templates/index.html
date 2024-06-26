@@ -13,9 +13,10 @@
     <div id="game-window"> 
         <canvas id="game-canvas" width="640" height="480"></canvas>
     </div>
-    <div id ="plot-container" style="display: none;">
+    <div id ="plot-container" style="display:none;">
         <img id="plot" src="" alt="Training Progress">
     <script>
+
         //initialize connection 
         const socket = io();
         const canvas = document.getElementById('game-canvas');
@@ -49,6 +50,8 @@
             document.getElementById('plot').src = 'data:image/png;base64,' + data.plot;
             document.getElementById('plot-container').style.display = 'block';
         });
+
     </script>
+    </div>
 </body>
 </html>

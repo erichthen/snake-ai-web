@@ -106,20 +106,20 @@ class Agent:
 
 # adjusted train function to work with Flask, handle requests, emit updates
 def train(agent, game, plot_scores, plot_mean_scores, total_score, record, socketio):
+
     while True:
 
         state_old = agent.get_state(game)
-
         final_move = agent.get_action(state_old)
+
         reward, done, score = game.play_step(final_move)
-
         state_new = agent.get_state(game)
-
         agent.train_short_memory(state_old, final_move, reward, state_new, done)
         agent.remember(state_old, final_move, reward, state_new, done)
 
+        #this emits a frame so the game can be displayed in the browser
         img_data = game.get_image()
-        socketio.emit('frame_update', {'image' : img_data}, namespace='/')
+        socketio.emit('frame_update', {'frame' : img_data}, namespace='/')
 
         if done:
             game.reset()
@@ -138,7 +138,7 @@ def train(agent, game, plot_scores, plot_mean_scores, total_score, record, socke
             plot_mean_scores.append(mean_score)
             plot_data = plot(plot_scores, plot_mean_scores)
 
-            # Emit game update
+            #this emits a game update when event collision (food, wall, or self) occurs
             socketio.emit('game_update', {
                 'game_over': True,
                 'score': score,
