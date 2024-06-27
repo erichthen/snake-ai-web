@@ -7,10 +7,10 @@ import simpleaudio as sa
 import base64
 from io import BytesIO
 
+
 pygame.init()
-pop = sa.WaveObject.from_wave_file("sound/pop.wav")
-uhhhh = sa.WaveObject.from_wave_file("sound/uhhhh.wav")
 font = pygame.font.Font('freesansbold.ttf', 25)
+
 
 class Direction(Enum):
     RIGHT = 1
@@ -31,13 +31,11 @@ BLOCK_SIZE = 20
 SPEED = 40
 
 
-
 class SnakeGameAI:
 
     def __init__(self, w=640, h=480):
         self.w = w
         self.h = h
-        # init display as surface in order to send frame images to browser
         self.display = pygame.Surface((self.w, self.h))
         self.clock = pygame.time.Clock()
         self.reset()
@@ -84,7 +82,6 @@ class SnakeGameAI:
             reward = -10
             return reward, game_over, self.score
 
-        
         if self.head == self.food:
             self.score += 1
             reward = 10
@@ -150,6 +147,7 @@ class SnakeGameAI:
 
         self.head = Point(x, y)
 
+    # get image data to send to browser frame by frame
     def get_image(self):
         img_str = pygame.image.tostring(self.display, "RGB")
         img = pygame.image.fromstring(img_str, (self.w, self.h), "RGB")
@@ -157,5 +155,4 @@ class SnakeGameAI:
         pygame.image.save(img, buf, "PNG")
         buf.seek(0)
         img_base64 = base64.b64encode(buf.read()).decode('utf-8')
-        print(f"Generated image wiht length: {len(img_base64)}")
         return img_base64

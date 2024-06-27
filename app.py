@@ -5,9 +5,7 @@ from flask import Flask, render_template, jsonify
 from flask_socketio import SocketIO
 from agent import Agent, train
 from game import SnakeGameAI
-from matplotlib import pyplot as plt
-import io
-import base64
+
 
 app = Flask(__name__)
 socketio = SocketIO(app)

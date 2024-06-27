@@ -18,4 +18,3 @@ def plot(scores, mean_scores):
     plt.close(fig)  # Close the plot to prevent it from popping up
     return base64.b64encode(buf.getvalue()).decode('utf-8')
 
-

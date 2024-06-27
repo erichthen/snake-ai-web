@@ -35,9 +35,9 @@ class QTrainer:
 
     def train_step(self, state, action, reward, next_state, done):
         state = torch.tensor(np.array(state), dtype=torch.float)
-        next_state = torch.tensor(next_state, dtype=torch.float)
-        action = torch.tensor(action, dtype=torch.long)
-        reward = torch.tensor(reward, dtype=torch.float)
+        next_state = torch.tensor(np.array(next_state), dtype=torch.float)
+        action = torch.tensor(np.array(action), dtype=torch.long)
+        reward = torch.tensor(np.array(reward), dtype=torch.float)
         # (n, x)
 
         if len(state.shape) == 1:
