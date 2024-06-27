@@ -135,10 +135,8 @@ def train(agent, game, plot_scores, plot_mean_scores, total_score, record, socke
                 'plot': plot_data
             }, namespace='/')
 
-            # Emit plot_update separately if needed
             socketio.emit('plot_update', {
                 'plot': plot_data
             }, namespace='/')
 
-        eventlet.sleep(0.01)  # Add a small delay to simulate training time and allow other tasks to 
-
+        eventlet.sleep(0.01) #simulate a delay

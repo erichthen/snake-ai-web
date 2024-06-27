@@ -24,6 +24,7 @@ def start_game():
     agent = Agent()
     game = SnakeGameAI()
     socketio.start_background_task(train, agent, game, plot_scores, plot_mean_scores, total_score, record, socketio)
+    socketio.emit('start_training')
     return jsonify({'status': 'Training started'})
 
 if __name__ == '__main__':

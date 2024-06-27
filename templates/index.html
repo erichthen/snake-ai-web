@@ -28,13 +28,18 @@
     
     <script>
         const socket = io();
-    
+
         document.getElementById('start-button').addEventListener('click', () => {
             fetch('/start_game', {
                 method: 'POST',
             }).then(response => response.json())
             .then(data => console.log(data));
         }); 
+
+        socket.on('start_training', () => {
+            console.log('Training started');
+            document.getElementById('start-button').innerText = 'Training in progress';
+        })
     
         socket.on('frame_update', (data) => {
             const gameCanvas = document.getElementById('game-canvas');
