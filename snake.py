@@ -3,7 +3,6 @@ import random
 from enum import Enum
 from collections import namedtuple
 import numpy as np
-import simpleaudio as sa
 import base64
 from io import BytesIO
 
@@ -20,7 +19,7 @@ class Direction(Enum):
 
 Point = namedtuple('Point', 'x, y')
 
-# rgb colors
+
 WHITE = (255, 255, 255)
 RED = (200,0,0)
 GREEN1 = (0, 255, 0)
@@ -66,13 +65,13 @@ class SnakeGameAI:
 
     def play_step(self, action):
         self.frame_iteration += 1
-        # 1. collect user input
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
         
-        self.move(action) # update the head
+        self.move(action) 
         self.snake.insert(0, self.head)
         
         reward = 0
@@ -147,7 +146,8 @@ class SnakeGameAI:
 
         self.head = Point(x, y)
 
-    # get image data to send to browser frame by frame
+
+    #return images to server frame by frame
     def get_image(self):
         img_str = pygame.image.tostring(self.display, "RGB")
         img = pygame.image.fromstring(img_str, (self.w, self.h), "RGB")

@@ -3,8 +3,8 @@ eventlet.monkey_patch()
 
 from flask import Flask, render_template, jsonify
 from flask_socketio import SocketIO
-from agent import Agent, train
-from game import SnakeGameAI
+from snake_agent import Agent, train
+from snake import SnakeGameAI
 
 
 app = Flask(__name__)
@@ -19,8 +19,8 @@ record = 0
 def index():
     return render_template('index.html')
 
-@app.route('/start_game', methods=['POST'])
-def start_game():
+@app.route('/start_snake', methods=['POST'])
+def start_snake():
     agent = Agent()
     game = SnakeGameAI()
     socketio.start_background_task(train, agent, game, plot_scores, plot_mean_scores, total_score, record, socketio)

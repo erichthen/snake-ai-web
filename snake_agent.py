@@ -2,8 +2,8 @@ import torch
 import random
 import numpy as np
 from collections import deque
-from game import Direction, Point
-from model import Linear_QNet, QTrainer
+from snake import Direction, Point
+from snake_model import Linear_QNet, QTrainer
 from flask_socketio import SocketIO
 import eventlet
 from plotting import plot
